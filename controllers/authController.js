@@ -52,7 +52,11 @@ export const login = async (req, res) => {
 
 export const logout = (req, res) => {
   res
-    .clearCookie("token")
+    .clearCookie("token", {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production",
+    })
     .json({ success: true, message: "Logout successful" });
 };
 
